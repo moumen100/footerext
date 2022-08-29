@@ -1,0 +1,54 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+$primarycolor : "[theme: themePrimary, default: #012a6d]";
+$primarybuttonText:"[theme:primaryButtonText, default:#ffffff]";
+.app
+{
+   background-color: $primarycolor;
+   color:$primarybuttonText;
+}
+.footer {
+    padding: 1em 0;
+    background-color: transparent;
+}
+.flex {
+    display: flex;
+
+    & > * {
+      flex-basis: 50%;
+    }
+  }
+  .icon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+  }
+  .contactContainer {
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+  }
+  
+  .socialsContainer {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  
+    & > div {
+      margin-left: 1rem;
+  
+      & > a {
+        text-decoration: none;
+      }
+  
+      & > a > img {
+        width: 25px;
+        height: 100%;
+      }
+  
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
