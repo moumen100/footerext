@@ -39,7 +39,9 @@ export default class FooterExtApplicationCustomizer
      * le titre de a liste où cntient nos items Dans notre cas la listes des socials medias
      */
   // private HostUrl : string = "https://intranettest.cpa-bank.dz/"; //test
-  private HostUrl: string = "https://intranetpprd.cpa-bank.dz/"; // prepre
+  private HostUrl: string = "http://orgaplums/"
+
+  // private HostUrl: string = "https://intranetpprd.cpa-bank.dz/"; // prepre
   private ListName: string = "SocialLinks";
   @override
   public onInit(): Promise<void> {
@@ -62,7 +64,7 @@ export default class FooterExtApplicationCustomizer
     // consummer API sharepoint 
     return this.context.spHttpClient
       .get(
-        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$select=ID,Code,Icon,Link`,
+        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$select=ID,Code,SocialIcon,SocialLink`,
         SPHttpClient.configurations.v1
       )
       .then((response: SPHttpClientResponse) => {
@@ -75,7 +77,10 @@ export default class FooterExtApplicationCustomizer
   private async renderPlaceholders(): Promise<void> {
     // récupérer la listes des socials medias on appllant la méthode getListItems
     const SocialsList : ISocial[] = await (await this.getListItems(this.ListName)).value
-
+    const logo = SocialsList.filter((value) => {
+        return value.Code=="logo"
+    })
+    const socialLinks = SocialsList.filter(value=> value.Code!="logo")
     // --------------------------------------------------Footer---------------------------------------------
 
     // récupérer  bottomPlaceholder
@@ -94,34 +99,20 @@ export default class FooterExtApplicationCustomizer
         <div>
           <div class=${styles.flex}>
             <div class=${styles.contactContainer}>
-              <img src={this.props.iconLink} class=${styles.icon} />
+              <img src=${logo[0].SocialIcon.Url} class=${styles.icon} />
             </div>
 
-          </div>
-          <div class=${styles.socialsContainer}>
-              <div>
-                <a target="_blank" href={this.props.socials.facebook}>
-                  <img src={Facebook} />
+            <div class=${styles.socialsContainer}>
+            ${socialLinks.map((value) => 
+                `  <div>
+                <a target="_blank" href=${value.SocialLink.Url}>
+                  <img src=${value.SocialIcon.Url} />
                 </a>
-              </div>
-              <div>
-                <a target="_blank" href={this.props.socials.instagram}>
-                  <img src={Instagram} />
-                </a>
-              </div>
-            
-              <div>
-                <a target="_blank" href={this.props.socials.twitter}>
-                  <img src={Twitter} />
-                </a>
-              </div>
-            
-              <div>
-                <a target="_blank" href={this.props.socials.linkedin}>
-                  <img src={LinkedIn} />
-                </a>
-              </div>
+              </div> `
+              )}
+             
            
+          </div>
           </div>
         </div>
       </div>`;
