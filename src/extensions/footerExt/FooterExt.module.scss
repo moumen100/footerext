@@ -1,89 +1,74 @@
-@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
-$primarycolor : "[theme: themePrimary, default: #012a6d]";
-$primarybuttonText:"[theme:primaryButtonText, default:#ffffff]";
-.app
-{
-   background-color: $primarycolor;
-   color:$primarybuttonText;
+@import "~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss";
+$primarycolor: "[theme: themePrimary, default: #012a6d]";
+$primarybuttonText: "[theme:primaryButtonText, default:#ffffff]";
+
+.app {
+  background-color: $primarycolor;
+  color: $primarybuttonText;
 }
 .footer {
-    padding: 1rem 0px;
-    background-color: transparent;
-    border-top: 1px solid #a0aec0;
+  padding: 1rem 0px;
+  background-color: transparent;
+  border-top: 1px solid #a0aec0;
 }
 .container {
-  max-width: 1375px;
+  max-width: 1284px;
   width: 90%;
   margin: 0 auto;
 }
 .flex {
-    display: flex;
-    
-    
+  display: flex;
+}
 
-  }
-  .icon {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50px;
-        height: 100%;
-  }
-  .contactContainer {
-    align-items: left;
-    justify-content: left;
-    justify-items: left;
-    margin-bottom: 0px;
-    flex:2;
-  }
-  
-  .socialsContainer {
-    flex: 2;
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    & > div {
-      margin-left: 2rem;
-  
-      & > a {
-        text-decoration: none;
-      }
-  
-      & > a > img {
-        width: 25px;
-        height: 100%;
-      }
-  
-      &:first-child {
-        margin-left: 0;
-      }
+.icon {
+  display: block;
+  width: 50px;
+  height: 100%;
+}
+
+.socialsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    margin-left: 2rem;
+
+    & > a {
+      text-decoration: none;
+    }
+
+    & > a > img {
+      width: 25px;
+      height: 100%;
+    }
+
+    &:first-child {
+      margin-left: 0;
     }
   }
-  .LinksContainer {
-    flex: 2;
-    justify-content: center;
-    align-items: center;
+}
 
-  }
-  .navbar {
-    width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-  }
-  .ulstyle {
-    list-style-type: none;
-                 margin: 0;
-                 padding: 0;
-                 overflow: hidden;
-                 display: inline-grid;
-  }
-  .MenuLinks {
-    color: black;
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.ulstyle {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: inline-grid;
+}
+
+.MenuLinks {
+  color: black;
   text-decoration: none;
-  }
-  .MenuLinks:hover {
-    box-shadow: inset 0 -1px 0 black;
-  }
+}
+.MenuLinks:hover {
+  box-shadow: inset 0 -1px 0 black;
+}
