@@ -43,7 +43,7 @@ export default class FooterExtApplicationCustomizer extends BaseApplicationCusto
   private HostUrl: string = "http://orgaplums/";
   // private HostUrl: string = "https://intranetpprd.cpa-bank.dz/"; // prepre
   private ListName: string = "SocialLinks";
-  private MenuList: string = "HeaderData";
+  private MenuList: string = "FooterData";
   @override
   public onInit(): Promise<void> {
     Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
@@ -61,11 +61,22 @@ export default class FooterExtApplicationCustomizer extends BaseApplicationCusto
    * @param listTitle Paramètre represente le titre de la liste à utiliser
    * @returns  Retourner les éléments de la liste en paramètre de type array de Iscial contient les informations sur les social medias
    */
-  private async getListItems(listTitle: string): Promise<ISPLISTITEM> {
+  private async getSocialMedias(listTitle: string): Promise<ISPLISTITEM> {
     // consummer API sharepoint
     return this.context.spHttpClient
       .get(
-        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items`,
+        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$select=ID,Code,SocialIcon,SocialLink`,
+        SPHttpClient.configurations.v1
+      )
+      .then((response: SPHttpClientResponse) => {
+        return response.json(); // retourner la liste
+      });
+  }
+  private async getMenuLinks(listTitle: string): Promise<ISPLISTITEM> {
+    // consummer API sharepoint
+    return this.context.spHttpClient
+      .get(
+        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$orderby=ordre&$top=6`,
         SPHttpClient.configurations.v1
       )
       .then((response: SPHttpClientResponse) => {
@@ -78,14 +89,14 @@ export default class FooterExtApplicationCustomizer extends BaseApplicationCusto
   private async renderPlaceholders(): Promise<void> {
     // récupérer la listes des socials medias on appllant la méthode getListItems
     const SocialsList: ISocial[] = await (
-      await this.getListItems(this.ListName)
+      await this.getSocialMedias(this.ListName)
     ).value;
     const logo = SocialsList.filter((value) => {
       return value.Code == "logo";
     });
     const socialLinks = SocialsList.filter((value) => value.Code != "logo");
     const NavLinks: any[] = await (
-      await this.getListItems(this.MenuList)
+      await this.getMenuLinks(this.MenuList)
     ).value;
     // --------------------------------------------------Footer---------------------------------------------
 
