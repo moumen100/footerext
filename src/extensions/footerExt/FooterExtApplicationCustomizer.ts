@@ -9,7 +9,7 @@ import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import {ISocial} from "./Models/ISocial"
 
 export interface ISPLISTITEM {
-  value: ISocial[];
+  value: any[];
 }
 const LOG_SOURCE: string = 'FooterExtApplicationCustomizer';
 
@@ -40,9 +40,9 @@ export default class FooterExtApplicationCustomizer
      */
   // private HostUrl : string = "https://intranettest.cpa-bank.dz/"; //test
   private HostUrl: string = "http://orgaplums/"
-
   // private HostUrl: string = "https://intranetpprd.cpa-bank.dz/"; // prepre
   private ListName: string = "SocialLinks";
+  private MenuList : string = "HeaderData";
   @override
   public onInit(): Promise<void> {
     Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
@@ -64,7 +64,7 @@ export default class FooterExtApplicationCustomizer
     // consummer API sharepoint 
     return this.context.spHttpClient
       .get(
-        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$select=ID,Code,SocialIcon,SocialLink`,
+        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items`,
         SPHttpClient.configurations.v1
       )
       .then((response: SPHttpClientResponse) => {
@@ -81,6 +81,7 @@ export default class FooterExtApplicationCustomizer
         return value.Code=="logo"
     })
     const socialLinks = SocialsList.filter(value=> value.Code!="logo")
+    const NavLinks : any[] = await (await this.getListItems(this.MenuList)).value
     // --------------------------------------------------Footer---------------------------------------------
 
     // récupérer  bottomPlaceholder
@@ -96,12 +97,20 @@ export default class FooterExtApplicationCustomizer
           <div
         class=${styles.footer}
       >
-        <div>
+        <div class=${styles.container}>
           <div class=${styles.flex}>
             <div class=${styles.contactContainer}>
               <img src=${logo[0].SocialIcon.Url} class=${styles.icon} />
             </div>
-
+            <div class="${styles.LinksContainer} ${styles.navbar}">
+            ${ NavLinks ?( NavLinks.map(link => 
+             ` 
+                 <ul class="${styles.ulstyle}">
+                   <li style="float: left;"><a class="${styles.MenuLinks}" href="${link.Link}">${link.Title}</a><li>
+                 </ul>
+              `
+             ).join(" ") ) : (`<p >Copyright@ Crédit Populaire Algérie<p>`)}
+         </div>
             <div class=${styles.socialsContainer}>
             ${socialLinks.map((value) => 
                 `  <div>
@@ -109,8 +118,8 @@ export default class FooterExtApplicationCustomizer
                   <img src=${value.SocialIcon.Url} />
                 </a>
               </div> `
-              )}
-             
+              ).join(" ")}
+              
            
           </div>
           </div>
@@ -120,7 +129,7 @@ export default class FooterExtApplicationCustomizer
     }
   }
   /**
-   * 
+   * i called when placeholder disposed
    */
   private onPlaceholderDispose() {
     console.log("Placeholder disposed");
