@@ -12,9 +12,9 @@ $primarybuttonText:"[theme:primaryButtonText, default:#ffffff]";
     border-top: 1px solid #a0aec0;
 }
 .container {
-  Max-width: 2000px;
-  Width: 90%;
-  Margin: 0 auto;
+  max-width: 1375px;
+  width: 90%;
+  margin: 0 auto;
 }
 .flex {
     display: flex;
@@ -85,5 +85,5 @@ $primarybuttonText:"[theme:primaryButtonText, default:#ffffff]";
   text-decoration: none;
   }
   .MenuLinks:hover {
-    box-shadow: inset 0 -1px 0 #f1f1f1;
+    box-shadow: inset 0 -1px 0 black;
   }
