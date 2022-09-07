@@ -39,9 +39,8 @@ export default class FooterExtApplicationCustomizer extends BaseApplicationCusto
       *     On définit  host url de la web application utilisé
      * le titre de a liste où cntient nos items Dans notre cas la listes des socials medias
      */
-  // private HostUrl : string = "https://intranettest.cpa-bank.dz/"; //test
-  private HostUrl: string = "http://orgaplums/";
-  // private HostUrl: string = "https://intranetpprd.cpa-bank.dz/"; // prepre
+  
+  private HostUrl: string = "https://intranetpprd.cpa-bank.dz/"; // prepre
   private ListName: string = "SocialLinks";
   private MenuList: string = "FooterData";
   @override
@@ -76,7 +75,7 @@ export default class FooterExtApplicationCustomizer extends BaseApplicationCusto
     // consummer API sharepoint
     return this.context.spHttpClient
       .get(
-        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$orderby=ordre&$top=6`,
+        `${this.HostUrl}/_api/Web/Lists/getbytitle('${listTitle}')/Items?$select=ID,Title,Link&$orderby=Ordre&$top=6`,
         SPHttpClient.configurations.v1
       )
       .then((response: SPHttpClientResponse) => {
@@ -124,7 +123,7 @@ export default class FooterExtApplicationCustomizer extends BaseApplicationCusto
             </div>
             <div class="${styles.navbar}">
               ${
-                NavLinks
+                NavLinks && NavLinks.length
                   ? NavLinks.map(
                       (link) =>
                         ` 
